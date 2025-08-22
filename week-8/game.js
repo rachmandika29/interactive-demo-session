@@ -54,7 +54,16 @@ function initGame() {
  * @returns {object} - Validation result with isValid boolean and message
  */
 function validateInput(input) {
-  // YOUR CODE HERE
+  const number = Number(input);
+  if (isNaN(number)) {
+    return { isValid: false, message: "Please enter a number" };
+  }
+  if (number < 1 || number > 100) {
+    return { isValid: false, message: "Please enter a number between 1 and 100!" };
+  }
+  if (previousGuesses.includes(number)) {
+    return { isValid: false, message: "You already guessed that number!" };
+  }
   return { isValid: true, number: number };
 }
 
@@ -117,7 +126,21 @@ function addToPreviousGuesses(guess) {
  * @param {number} guess - The user's guess
  */
 function processGuess(guess) {
-  // YOUR CODE HERE
+  if (guess === targetNumber) {
+    endGame(true);
+    return;
+  }
+  if (guess < targetNumber) {
+    showFeedback("📈 Too low! Try a higher number.", "low");
+  } else {
+    showFeedback("📉 Too high! Try a lower number.", "high");
+  }
+  attemptsLeft--;
+  attemptsLeftSpan.textContent = attemptsLeft;
+  addToPreviousGuesses(guess);
+  if (attemptsLeft === 0) {
+    endGame(false);
+  }
 }
 
 /**
@@ -169,7 +192,14 @@ function handleSubmit() {
 }
 
 // Event listeners
-// YOUR CODE HERE
+submitBtn.addEventListener("click", handleSubmit);
+guessInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    handleSubmit();
+  }
+});
+resetBtn.addEventListener("click", initGame);
+
 
 // Initialize the game when page loads
 initGame();

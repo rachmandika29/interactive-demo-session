@@ -17,7 +17,7 @@ Implement a fully functional number guessing game with input validation and game
 
 ```
 Interactive Demo Session/
-├── number-guessing-game.html    # Main HTML file with game interface
+├── index.html    # Main HTML file with game interface
 ├── game.js                      # JavaScript game logic and functionality
 └── README.md                    # This documentation file
 ```
