@@ -125,6 +125,8 @@ function addToPreviousGuesses(guess) {
  * Process the user's guess
  * @param {number} guess - The user's guess
  */
+
+/**CHALLENGE 1 */
 function processGuess(guess) {
   if (guess === targetNumber) {
     endGame(true);
@@ -176,6 +178,7 @@ function endGame(won) {
 /**
  * Handle the submit button click or Enter key press
  */
+/**CHALLENGE 2 */
 function handleSubmit() {
   if (!gameActive) return;
 
@@ -191,7 +194,7 @@ function handleSubmit() {
   processGuess(validation.number);
 }
 
-// Event listeners
+// Event listeners for button functionality
 submitBtn.addEventListener("click", handleSubmit);
 guessInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
