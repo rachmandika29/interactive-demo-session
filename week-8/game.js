@@ -179,7 +179,6 @@ function endGame(won) {
 /**
  * Handle the submit button click or Enter key press
  */
-/**CHALLENGE 3 */
 function handleSubmit() {
   if (!gameActive) return;
 
