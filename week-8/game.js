@@ -53,6 +53,7 @@ function initGame() {
  * @param {string} input - The user's input
  * @returns {object} - Validation result with isValid boolean and message
  */
+/**CHALLENGE 1 */
 function validateInput(input) {
   const number = Number(input);
   if (isNaN(number)) {
@@ -126,7 +127,7 @@ function addToPreviousGuesses(guess) {
  * @param {number} guess - The user's guess
  */
 
-/**CHALLENGE 1 */
+/**CHALLENGE 2 */
 function processGuess(guess) {
   if (guess === targetNumber) {
     endGame(true);
@@ -178,7 +179,7 @@ function endGame(won) {
 /**
  * Handle the submit button click or Enter key press
  */
-/**CHALLENGE 2 */
+/**CHALLENGE 3 */
 function handleSubmit() {
   if (!gameActive) return;
 
