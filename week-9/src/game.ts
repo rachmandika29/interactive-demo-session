@@ -8,6 +8,10 @@ class Game {
     private cars: Car[];
     private score: number;
     private gameOver: boolean;
+    private animationId: number | null = null;
+    private resetButton!: HTMLButtonElement;
+
+
 
     constructor() {
         this.canvas = document.createElement('canvas');
@@ -21,6 +25,7 @@ class Game {
         this.score = 0;
         this.gameOver = false;
 
+        this.createResetButton();
         this.init();
     }
 
@@ -50,12 +55,11 @@ class Game {
     }
 
     private spawnCars(): void {
-        // Spawn cars more frequently (every 1 second instead of 2)
         setInterval(() => {
             if (!this.gameOver) {
                 this.cars.push(new Car());
             }
-        }, 200);
+        }, 250);
     }
 
     private gameLoop(): void {
@@ -66,7 +70,7 @@ class Game {
 
         this.update();
         this.draw();
-        requestAnimationFrame(this.gameLoop.bind(this));
+        this.animationId = requestAnimationFrame(this.gameLoop.bind(this));
     }
 
     private update(): void {
@@ -97,23 +101,66 @@ class Game {
 
         this.chicken.draw(this.ctx);
         this.cars.forEach(car => car.draw(this.ctx));
+        
+        // Ensure reset button is hidden during normal gameplay
+        this.resetButton.style.display = 'none';
     }
 
     private drawGameOver(): void {
-        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        
         this.ctx.fillStyle = 'white';
         this.ctx.font = '48px Arial';
-        this.ctx.fillText('Game Over!', 300, 250);
-        this.ctx.fillText(`Score: ${this.score}`, 320, 320);
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText('Game Over', this.canvas.width / 2, this.canvas.height / 2 - 50);
+        
+        this.ctx.font = '24px Arial';
+        this.ctx.fillText(`Final Score: ${this.score}`, this.canvas.width / 2, this.canvas.height / 2 + 20);
+        
+        // Show reset button when game is over
+        this.resetButton.style.display = 'block';
     }
 
     private checkCollision(car: Car, chicken: Chicken): boolean {
-        return (car.x < chicken.x + 30 &&
-                car.x + 60 > chicken.x &&
-                car.y < chicken.y + 30 &&
-                car.y + 30 > chicken.y);
+        const tolerance = 5;
+        return (car.x < chicken.x + 30 - tolerance &&
+                car.x + 60 > chicken.x + tolerance &&
+                car.y < chicken.y + 30 - tolerance &&
+                car.y + 30 > chicken.y + tolerance);
     }
+
+    private createResetButton(): void {
+        this.resetButton = document.createElement('button');
+        this.resetButton.textContent = 'Reset Game';
+        this.resetButton.style.position = 'absolute';
+        this.resetButton.style.left = '50%';
+        this.resetButton.style.top = '50%';
+        this.resetButton.style.transform = 'translate(-50%, 50px)';
+        this.resetButton.style.padding = '10px 20px';
+        this.resetButton.style.fontSize = '18px';
+        this.resetButton.style.backgroundColor = '#4CAF50';
+        this.resetButton.style.color = 'white';
+        this.resetButton.style.border = 'none';
+        this.resetButton.style.borderRadius = '5px';
+        this.resetButton.style.cursor = 'pointer';
+        this.resetButton.style.display = 'none';
+        this.resetButton.addEventListener('click', this.resetGame.bind(this));
+        document.body.appendChild(this.resetButton);
+    }
+
+    private resetGame(): void {
+        this.score = 0;
+        this.gameOver = false;
+        this.chicken = new Chicken(400, 550);
+        this.cars = [];
+        this.resetButton.style.display = 'none';
+        if (this.animationId) {
+            cancelAnimationFrame(this.animationId);
+        }
+        this.gameLoop();
+    }
+
 }
 
 export default Game;
