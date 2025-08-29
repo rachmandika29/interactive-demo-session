@@ -97,7 +97,10 @@ class Game {
 
         this.ctx.fillStyle = 'black';
         this.ctx.font = '24px Arial';
-        this.ctx.fillText(`Score: ${this.score}`, 10, 30);
+        const scoreText = `Score: ${this.score}`;
+        const textWidth = this.ctx.measureText(scoreText).width;
+        const centerX = (this.canvas.width - textWidth) / 2;
+        this.ctx.fillText(scoreText, centerX, 30);
 
         this.chicken.draw(this.ctx);
         this.cars.forEach(car => car.draw(this.ctx));
