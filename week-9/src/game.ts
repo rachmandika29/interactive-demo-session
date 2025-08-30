@@ -116,10 +116,10 @@ class Game {
         this.ctx.fillStyle = 'white';
         this.ctx.font = '48px Arial';
         this.ctx.textAlign = 'center';
-        this.ctx.fillText('Game Over', this.canvas.width / 2, this.canvas.height / 2 - 50);
+        this.ctx.fillText('Game Over', this.canvas.width / 2, this.canvas.height / 2 - 80);
         
         this.ctx.font = '24px Arial';
-        this.ctx.fillText(`Final Score: ${this.score}`, this.canvas.width / 2, this.canvas.height / 2 + 20);
+        this.ctx.fillText(`Final Score: ${this.score}`, this.canvas.width / 2, this.canvas.height / 2 - 20);
         
         // Show reset button when game is over
         this.resetButton.style.display = 'block';
@@ -139,16 +139,31 @@ class Game {
         this.resetButton.style.position = 'absolute';
         this.resetButton.style.left = '50%';
         this.resetButton.style.top = '50%';
-        this.resetButton.style.transform = 'translate(-50%, 50px)';
-        this.resetButton.style.padding = '10px 20px';
+        this.resetButton.style.transform = 'translate(-50%, 80px)';
+        this.resetButton.style.padding = '12px 24px';
         this.resetButton.style.fontSize = '18px';
+        this.resetButton.style.fontWeight = 'bold';
         this.resetButton.style.backgroundColor = '#4CAF50';
         this.resetButton.style.color = 'white';
         this.resetButton.style.border = 'none';
-        this.resetButton.style.borderRadius = '5px';
+        this.resetButton.style.borderRadius = '8px';
         this.resetButton.style.cursor = 'pointer';
+        this.resetButton.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.3)';
+        this.resetButton.style.transition = 'all 0.3s ease';
         this.resetButton.style.display = 'none';
         this.resetButton.addEventListener('click', this.resetGame.bind(this));
+        
+        // Add hover effects
+        this.resetButton.addEventListener('mouseenter', () => {
+            this.resetButton.style.backgroundColor = '#45a049';
+            this.resetButton.style.transform = 'translate(-50%, 80px) scale(1.05)';
+        });
+        
+        this.resetButton.addEventListener('mouseleave', () => {
+            this.resetButton.style.backgroundColor = '#4CAF50';
+            this.resetButton.style.transform = 'translate(-50%, 80px) scale(1)';
+        });
+        
         document.body.appendChild(this.resetButton);
     }
 
